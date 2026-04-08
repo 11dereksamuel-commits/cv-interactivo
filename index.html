@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derek Paul - Senior Frontend Developer & UX/UI Designer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0f172a',
+                        darker: '#050a14',
+                        accent: '#91FBF2',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- html2pdf Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        @media print { .no-print { display: none !important; } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050a14; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        /* Ajuste para PDF al exportar imagen redondeada */
+        .pdf-export-img-fix { object-fit: cover !important; border-radius: 9999px !important; }
+        
+        /* Animaciones Modernas de Scroll */
+        @media screen {
+            .scroll-animate {
+                opacity: 0;
+                transform: translateY(25px);
+                transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .scroll-animate.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media print {
+            .scroll-animate { opacity: 1 !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-darker text-slate-300 min-h-screen p-4 sm:p-8 flex justify-center selection:bg-accent selection:text-darker">
+
+    <div class="max-w-4xl w-full">
+        <!-- Floating Export action -->
+        <div class="flex justify-end mb-6 sticky top-4 z-10 no-print" id="action-container">
+            <button id="export-btn" class="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-lg backdrop-blur-md transition-all duration-300 flex items-center gap-2 text-sm font-semibold border border-white/10 shadow-[0_0_15px_rgba(145,251,242,0.15)] hover:shadow-[0_0_25px_rgba(145,251,242,0.3)] hover:border-accent/40" onclick="exportToPDF()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Exportar a PDF
+            </button>
+        </div>
+
+        <!-- CV Content -->
+        <main id="cv-content" class="bg-dark p-8 sm:p-14 rounded-2xl shadow-2xl border border-white/5 relative overflow-hidden">
+            <!-- Decorative accent gradient -->
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-accent via-[#2563eb] to-indigo-500" id="top-gradient"></div>
+
+            <!-- Header Section with Profile Picture -->
+            <header class="mb-12 flex flex-col sm:flex-row items-center sm:items-start gap-8">
+                <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-2 border-white/10 shadow-[0_0_25px_rgba(145,251,242,0.15)] flex-shrink-0 bg-white/5">
+                    <img id="profile-img" src="./profile.jpg" alt="Derek Paul" class="w-full h-full object-cover">
+                </div>
+                <div class="text-center sm:text-left mt-0 sm:mt-4">
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-2 tracking-tight">Derek Paul</h1>
+                    <h2 class="text-xl sm:text-2xl text-accent font-semibold mb-6">Senior Frontend Developer & UX/UI Designer</h2>
+                    <div class="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 text-sm text-slate-400 font-medium">
+                        <a href="https://www.linkedin.com/in/derek-paul-55a7771b7?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="hover:text-accent transition-colors underline decoration-white/20 underline-offset-4">LinkedIn</a>
+                        <span class="opacity-30">|</span>
+                        <a href="https://wa.me/573154494547" target="_blank" class="hover:text-accent transition-colors underline decoration-white/20 underline-offset-4">+57 3154494547</a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Hook/Intro Section -->
+            <section class="mb-14 bg-gradient-to-br from-white/[0.03] to-transparent p-7 rounded-xl border border-white/5 shadow-inner">
+                <h3 class="text-xl font-bold text-white mb-4">¿Por qué el núcleo corporativo de TOTTO integró a un Senior sin título universitario convencional?</h3>
+                <p class="text-slate-300 leading-relaxed text-sm lg:text-base">
+                    En una industria sujeta a estándares tradicionales donde la titulación es el principal filtro, mi incorporación se fundamentó en mi capacidad analítica para resolver retos técnicos y de negocio altamente complejos que escapaban a la vista de otros. He construido mi trayectoria guiado por un principio fundacional: <strong class="text-white underline decoration-accent/60 underline-offset-4 decoration-2">la ejecución pragmática y cuantificable aporta un valor corporativo exponencial frente a la conceptualización teórica.</strong>
+                </p>
+            </section>
+
+            <!-- Experience Section -->
+            <section class="mb-10">
+                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8 border-b border-white/10 pb-2">Experiencia Profesional Exclusiva</h3>
+                
+                <!-- TOTTO -->
+                <div class="mb-10 relative pl-7 before:content-[''] before:absolute before:left-[3px] before:top-2.5 before:w-2 before:h-2 before:bg-accent before:rounded-full before:shadow-[0_0_12px_rgba(145,251,242,0.8)] after:content-[''] after:absolute after:left-[6px] after:top-6 after:w-[2px] after:h-[calc(100%+24px)] after:bg-white/10 group">
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold text-white group-hover:text-accent transition-colors">TOTTO | Senior Frontend Developer & UX/UI Designer</h4>
+                        <p class="text-sm text-accent/80 font-medium mb-3">Bogotá, Colombia | 1 año - Presente</p>
+                        <p class="text-slate-300 text-sm">Asumí la responsabilidad de liderar la transformación digital de una marca icónica, rediseñando su infraestructura técnica y su ecosistema visual.</p>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <span class="mr-4 text-accent text-lg leading-tight mt-[2px] font-bold">•</span>
+                            <span class="text-slate-300 leading-relaxed text-sm"><strong class="text-white">Arquitectura y Refactorización:</strong> Orquesté la transición hacia un ecosistema de componentes de alta cohesión y bajo acoplamiento. Depuré deuda técnica, dominando metodologías ágiles.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-4 text-accent text-lg leading-tight mt-[2px] font-bold">•</span>
+                            <div class="text-slate-300 leading-relaxed text-sm">
+                        <li class="flex items-start">
+                            <span class="mr-4 text-accent text-lg leading-tight mt-[2px] font-bold">•</span>
+                            <div class="text-slate-300 leading-relaxed text-sm w-full">
+                                <strong class="text-white text-base block mb-2">Líder Arquitecto UX/UI: Rediseño Landing Keypago & Design System</strong>
+                                <p class="mb-3">Dirigí la reestructuración estratégica de la vertical Fintech (Keypago). Lideré el rediseño crítico de la <strong class="text-white">Landing Page principal</strong>, transformando una interfaz genérica y convencional en una experiencia 'Premium' minimalista, de alta conversión e hiper-enfocada en el producto.</p>
+                                <p class="mb-5">Paralelamente, defino la gobernanza absoluta del <strong class="text-white">Design System</strong> institucional. Ejerzo una auditoría técnica implacable sobre agencias externas para evitar orfandades, forzándoles a aplicar rigor y asegurar que cada Wireframe se alinee meticulosamente con nuestras prácticas de desarrollo.</p>
+                                
+                                <!-- Caso de Éxito Visual -->
+                                <div class="bg-white/[0.015] border border-white/10 rounded-xl p-4 sm:p-5 shadow-inner">
+                                    <h5 class="text-accent text-[10px] uppercase tracking-widest font-bold mb-4 border-b border-white/5 pb-2">Evidencia: Evolución UI/UX y Control de Calidad</h5>
+                                    
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                        <!-- Antes -->
+                                        <div class="relative group rounded-lg overflow-hidden border border-red-500/30">
+                                            <div class="absolute top-2 left-2 bg-red-500/90 text-white text-[9px] font-extrabold px-2 py-1 rounded backdrop-blur-md z-10 shadow-lg">ANTES (Deprecated)</div>
+                                            <!-- USER: PLEASE NAME YOUR FIRST IMAGE keypago-before.png -->
+                                            <img src="./keypago-before.png" alt="Keypago Antes" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                                        </div>
+                                        <!-- Después -->
+                                        <div class="relative group rounded-lg overflow-hidden border border-accent/50 shadow-[0_0_15px_rgba(145,251,242,0.15)] bg-[#0A0A0A]">
+                                            <div class="absolute top-2 left-2 bg-accent text-darker text-[9px] font-extrabold px-2 py-1 rounded backdrop-blur-md z-10 shadow-lg">NUEVA ARQUITECTURA</div>
+                                            <!-- USER: PLEASE NAME YOUR SECOND IMAGE keypago-after.png -->
+                                            <img src="./keypago-after.png" alt="Keypago Después" class="w-full h-full object-cover transition-all duration-500 hover:scale-105">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="relative rounded-lg overflow-hidden border border-white/10 mt-2">
+                                        <div class="absolute top-2 left-2 bg-slate-800/90 text-white text-[9px] font-extrabold px-2 py-1 rounded backdrop-blur-md z-10 shadow-lg">AUDITORÍA ESTRICTA VS AGENCIA EXTERNA</div>
+                                        <!-- USER: PLEASE NAME YOUR THIRD IMAGE figma-reviews.png -->
+                                        <img src="./figma-reviews.png" alt="Revisiones Figma" class="w-full h-24 object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300">
+                                    </div>
+                                    
+                                    <div class="mt-5">
+                                        <a href="https://www.figma.com/design/fa65Tui6r0XR5twzlCquH7/keypago---Wireframes--Copy-?m=auto&t=yMrlzR1uYKouT7bi-1" target="_blank" class="inline-flex items-center justify-center gap-2 text-xs font-bold text-accent hover:text-darker transition-colors bg-accent/10 hover:bg-accent px-5 py-2.5 rounded-lg border border-accent/20 w-fit shadow-[0_0_10px_rgba(145,251,242,0.1)]">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="flex-shrink-0" stroke="currentColor" stroke-width="2.5"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg> Revisión de Wireframes y Design System
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Nuevo bloque PaymentProvider -->
+                        <li class="flex items-start mt-8">
+                            <span class="mr-4 text-accent text-lg leading-tight mt-[2px] font-bold">•</span>
+                            <div class="text-slate-300 leading-relaxed text-sm w-full">
+                                <strong class="text-white text-base block mb-2">Ingeniería UX/UI y Arquitectura de Flujos: PaymentProvider (Validación de Identidad)</strong>
+                                <p class="mb-5">Extrapolé el estándar Premium adquirido hacia la pasarela transaccional (Payment Provider). Orquesté la transición completa de los flujos KYC (Know Your Customer) heredados, rediseñándolos desde cero mediante diagramas de flujo lógicos y una nueva arquitectura estructurada para validaciones biométricas y documentales sin fricciones, seguras y escalables.</p>
+                                
+                                <!-- Caso de Éxito Visual PaymentProvider -->
+                                <div class="bg-white/[0.015] border border-white/10 rounded-xl p-4 sm:p-5 shadow-inner">
+                                    <h5 class="text-accent text-[10px] uppercase tracking-widest font-bold mb-4 border-b border-white/5 pb-2">Evidencia: Rediseño Transaccional KYC</h5>
+                                    
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                        <!-- Antes -->
+                                        <div class="relative group rounded-lg overflow-hidden border border-red-500/30">
+                                            <div class="absolute top-2 left-2 bg-red-500/90 text-white text-[9px] font-extrabold px-2 py-1 rounded backdrop-blur-md z-10 shadow-lg">ANTES (Interface Legacy)</div>
+                                            <!-- USER: PLEASE NAME YOUR FIRST IMAGE pp-before.png -->
+                                            <img src="./pp-before.png" alt="PaymentProvider Antes" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                                        </div>
+                                        <!-- Después -->
+                                        <div class="relative group rounded-lg overflow-hidden border border-accent/50 shadow-[0_0_15px_rgba(145,251,242,0.15)] bg-[#0A0A0A]">
+                                            <div class="absolute top-2 left-2 bg-accent text-darker text-[9px] font-extrabold px-2 py-1 rounded backdrop-blur-md z-10 shadow-lg">NUEVA EXPERIENCIA</div>
+                                            <!-- USER: PLEASE NAME YOUR THIRD IMAGE pp-after.png -->
+                                            <img src="./pp-after.png" alt="PaymentProvider Después" class="w-full h-full object-cover transition-all duration-500 hover:scale-105">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="relative rounded-lg overflow-hidden border border-white/10 mt-2">
+                                        <div class="absolute top-2 left-2 bg-slate-800/90 text-white text-[9px] font-extrabold px-2 py-1 rounded backdrop-blur-md z-10 shadow-lg">ARQUITECTURA DE FLUJOS INTERACTIVOS</div>
+                                        <!-- USER: PLEASE NAME YOUR SECOND IMAGE pp-flow.png -->
+                                        <img src="./pp-flow.png" alt="Arquitectura Flujos Figma" class="w-full h-32 object-cover opacity-70 hover:opacity-100 transition-all duration-300">
+                                    </div>
+                                    
+                                    <div class="mt-5 flex flex-col xl:flex-row gap-2">
+                                        <a href="https://www.figma.com/design/8ZuPmDQnrDnbA5xgiSMdrH/PaymentProvider-Designs?node-id=3293-3237" target="_blank" class="flex-1 inline-flex items-center justify-center gap-2 text-[11px] font-bold text-accent hover:text-darker transition-colors bg-accent/10 hover:bg-accent px-3 py-2.5 rounded-lg border border-accent/20">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="flex-shrink-0" stroke="currentColor" stroke-width="2.5"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg> Flujos UX PaymentProvider
+                                        </a>
+                                        <a href="https://www.figma.com/design/8ZuPmDQnrDnbA5xgiSMdrH/PaymentProvider-Designs?node-id=3661-6019" target="_blank" class="flex-1 inline-flex items-center justify-center gap-2 text-[11px] font-bold text-accent hover:text-darker transition-colors bg-accent/10 hover:bg-accent px-3 py-2.5 rounded-lg border border-accent/20">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="flex-shrink-0" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Casos de Error
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Brilliant Digital Network -->
+                <div class="relative pl-7 before:content-[''] before:absolute before:left-[3px] before:top-2.5 before:w-2 before:h-2 before:bg-slate-500 before:rounded-full group">
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold text-white group-hover:text-slate-200 transition-colors">Brilliant Digital Network (Health-Tech) | Senior Frontend Developer</h4>
+                        <p class="text-sm text-slate-400 font-medium mb-3">4 años (Consolidando +5 años de experiencia global core)</p>
+                        <p class="text-slate-300 text-sm leading-relaxed">Comandé despliegues de alto impacto asumiendo retos técnicos profundos. Garanticé métricas 'Top Tier' en rendimiento dentro de ecosistemas clínicos altamente complejos, impulsando innovaciones sin precedentes en visualización espacial y comunicaciones en tiempo real.</p>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-4 text-slate-500 text-lg leading-tight mt-[2px] font-bold">•</span>
+                            <span class="text-slate-300 leading-relaxed text-sm"><strong class="text-white">Computación Espacial y Rendering 3D:</strong> Dirigí la manipulación compleja y orquestación de matrices SVG a gran escala para renderizar mapas tridimensionales interactivos. Integré <strong class="text-white">Amazon Sumerian Hosts</strong> para incrustar asistentes virtuales de voz renderizados en entornos 3D.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-4 text-slate-500 text-lg leading-tight mt-[2px] font-bold">•</span>
+                            <span class="text-slate-300 leading-relaxed text-sm"><strong class="text-white">Ecosistema RTC y Procesamiento de Video:</strong> Arquitecté y desarrollé un sistema nativo de videollamadas. Desarrollé filtros dinámicos y procesamiento de streaming aplicando infraestructuras avanzadas con diversas tecnologías de <strong class="text-white">AWS</strong>.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- AI Featured Project Section -->
+            <section class="mb-14 bg-gradient-to-tr from-accent/[0.03] to-white/[0.04] p-7 rounded-xl border border-accent/10 shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-[80px] pointer-events-none"></div>
+                <h3 class="text-xs font-bold text-accent uppercase tracking-widest mb-6 border-b border-accent/20 pb-2">Destacado: Desarrollo de Soluciones con Inteligencia Artificial</h3>
+                <div class="flex flex-col lg:flex-row gap-8 items-center lg:items-center relative z-10">
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold text-white mb-3 leading-snug">Ingeniería Core y Sustitución de Arquitecturas Dependientes (OpenClaw)</h4>
+                        
+                        <!-- Badge de 4 horas -->
+                        <div class="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 text-accent font-extrabold text-xs uppercase tracking-widest px-4 py-2 rounded-lg mb-4 shadow-[0_0_20px_rgba(145,251,242,0.2)]">
+                            <span class="relative flex h-2.5 w-2.5">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
+                            </span>
+                            Desplegado de Cero a Producción en: 4 HORAS EXÁCTAS
+                        </div>
+
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                            En un excepcional sprint técnico de tan solo <strong class="text-white">4 horas reloj</strong>, me encargué de liderar la ingeniería y cristalizar la ejecución completa de un ecosistema conversacional cognitivo para suprimir dependencias y sobrecostos de plataformas como OpenClaw. La solución se sustenta en una interfaz web avanzada con capacidades multimodales diseñadas, orquestadas e interconectadas en tiempo récord.
+                        </p>
+                        <ul class="space-y-3 text-sm text-slate-300 font-medium">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-accent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 1v22M17 5v14M7 5v14M22 10v4M2 10v4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> 
+                                <span><strong class="text-white">Interacciones por Voz y Mensajería:</strong> Soporte asíncrono para streaming nativo conversacional.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-accent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> 
+                                <span><strong class="text-white">Vectorización RAG Documental:</strong> Lectura y curación múltiple de archivos con procesamiento instantáneo.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-accent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> 
+                                <span><strong class="text-white">Orquestación via n8n y LLMs Nativos:</strong> Conexión sinérgica a workflows de n8n integrando LLMs propios para potenciar ejecuciones lógicas personalizadas de alto nivel.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full lg:w-[320px] flex-shrink-0 h-full flex items-center justify-center">
+                        <!-- Imágen de Arquitectura AI (generada automáticamente) -->
+                        <img src="./ai_chat.png" alt="Arquitectura IA y n8n" class="w-full h-auto rounded-lg border border-accent/20 shadow-[0_0_20px_rgba(145,251,242,0.15)] ring-1 ring-white/10 filter contrast-125">
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-10">
+                <!-- Education Section -->
+                <section>
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 border-b border-white/10 pb-2">Educación y Validaciones</h3>
+                    <ul class="space-y-8">
+                        <li class="group">
+                            <strong class="text-white block mb-2 text-lg group-hover:text-accent transition-colors">Autodidacta Profesional y Seniority Técnico</strong>
+                            <p class="text-sm text-slate-400 leading-relaxed mb-4">Dominio integral en formaciones de Frontend, Backend, Arquitectura Limpia y Diseño UX/UI.</p>
+                            <!-- Platzi Drive Link -->
+                            <a href="https://drive.google.com/drive/folders/1NgXZ3AtxxjMMYKMxmCpkhrBsMmRoDKBt" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-accent/10 to-transparent hover:from-accent/20 text-accent border border-accent/20 px-4 py-2.5 rounded-lg transition-all shadow-[0_0_15px_rgba(145,251,242,0.05)] hover:shadow-[0_0_20px_rgba(145,251,242,0.15)] no-print">
+                                Ver +135 Certificaciones en Platzi
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                            <p class="hidden print:block text-accent text-xs font-medium mt-2">» Validado con +135 certificaciones técnicas y especializadas.</p>
+                        </li>
+                        <li class="group scroll-animate">
+                            <strong class="text-white block mb-2 text-lg group-hover:text-accent transition-colors">Especialista en Inteligencia Artificial</strong>
+                            <p class="text-sm text-slate-400 leading-relaxed mb-4">Capacitación intensiva en el desarrollo e inserción de LLMs estructurados en optimización de flujos de valor tanto para el stack de desarrollo como de product design.</p>
+                            <!-- Botón de Certificado AI -->
+                            <a href="https://verify.skilljar.com/c/pmtpyc7tzfv6" target="_blank" class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider bg-gradient-to-r from-accent/10 to-transparent hover:from-accent/20 text-accent border border-accent/20 px-4 py-2 rounded-lg transition-all shadow-[0_0_15px_rgba(145,251,242,0.05)] hover:shadow-[0_0_20px_rgba(145,251,242,0.15)] no-print">
+                                Ver Certificado Oficial IA
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                            <p class="hidden print:block text-accent text-[11px] font-medium mt-2">» Validación Oficial (ID: pmtpyc7tzfv6)</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Tech Stack Section -->
+                <section>
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 border-b border-white/10 pb-2">Core Tech Stack</h3>
+                    <ul class="space-y-3">
+                        <li class="bg-white/[0.015] p-3.5 rounded-lg border border-white/5 hover:border-accent/30 hover:bg-white/[0.03] transition-all">
+                            <strong class="text-white">Frontend & UI Engineering:</strong> <span class="text-slate-400 text-sm">React, Vue, Vanilla JS, Electron, Next.js, TailwindCSS, CSS3, HTML5, XML, manipulación de SVG para animaciones y mapas tri-dimensionales.</span>
+                        </li>
+                        <li class="bg-white/[0.015] p-3.5 rounded-lg border border-white/5 hover:border-accent/30 hover:bg-white/[0.03] transition-all">
+                            <!-- Backend Modificado -->
+                            <strong class="text-white">Backend / Cloud:</strong> <span class="text-slate-400 text-sm">Node.js, Express, AWS S3, ApiGateway.</span>
+                        </li>
+                        <li class="bg-white/[0.015] p-3.5 rounded-lg border border-white/5 hover:border-accent/30 hover:bg-white/[0.03] transition-all">
+                            <strong class="text-white">Product Design:</strong> <span class="text-slate-400 text-sm">Figma (Advanced Design Systems), UX Architecture, UI Fidelity, User Research.</span>
+                        </li>
+                        <li class="bg-white/[0.015] p-3.5 rounded-lg border border-white/5 hover:border-accent/30 hover:bg-white/[0.03] transition-all">
+                            <strong class="text-white">Infra / Metodologías:</strong> <span class="text-slate-400 text-sm">SCRUM, Arquitectura Modular Orientada a Eventos.</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Footer Note Elevado -->
+            <footer class="mt-12 pt-8 text-base sm:text-lg text-slate-300 leading-relaxed max-w-4xl scroll-animate bg-accent/[0.03] p-6 lg:p-8 rounded-xl border border-accent/20 shadow-[0_0_30px_rgba(145,251,242,0.05)] relative overflow-hidden group">
+                <div class="absolute top-0 right-0 bg-accent text-darker text-[10px] sm:text-xs font-black uppercase px-4 py-1.5 rounded-bl-lg shadow-[0_0_15px_rgba(145,251,242,0.4)] z-10 w-fit transform origin-top-right transition-transform group-hover:scale-105">
+                    🚀 Frontend Ejecutado en: ~2 HRS
+                </div>
+                <p class="pt-2">
+                    <strong class="text-accent font-extrabold tracking-wide uppercase text-sm block mb-2">Nota Tecnológica Estratégica:</strong> 
+                    El copy, arquitectura y layout de esta interfaz (Hoja de vida) fue diseñada y programada de cero en un tiempo récord de <strong class="text-white">aproximadamente 2 horas</strong> apoyada en <strong class="text-white border-b border-accent/40 pb-0.5">Inteligencia Artificial programática</strong>; exactamente la misma destreza tecnológica de la que soy promotor y ejecutor principal para rebasar de forma contundente la velocidad de entrega en el entorno corporativo de TOTTO.
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Script para generar el PDF -->
+    <script>
+        // Observer para Animaciones Acopladas
+        document.addEventListener("DOMContentLoaded", function() {
+            const targets = document.querySelectorAll('section, header, footer, .mb-10 > ul > li, .grid > section > ul > li');
+            targets.forEach(el => el.classList.add('scroll-animate'));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
+
+            document.querySelectorAll('.scroll-animate').forEach((el) => observer.observe(el));
+        });
+
+        function exportToPDF() {
+            // Vital: Subir el scroll para que html2canvas no capture sectores fuera del viewport limitando los cuadros azules
+            window.scrollTo(0, 0); 
+            
+            const element = document.getElementById('cv-content');
+            const btn = document.getElementById('export-btn');
+            const profileImg = document.getElementById('profile-img');
+            
+            if(profileImg) {
+                profileImg.classList.add('pdf-export-img-fix');
+            }
+            
+            element.classList.remove('overflow-hidden');
+            
+            // Forzar repintado completo SIN animaciones
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            animatedElements.forEach(el => {
+                el.style.setProperty('transition', 'none', 'important');
+                el.style.setProperty('opacity', '1', 'important');
+                el.style.setProperty('transform', 'none', 'important');
+                el.classList.add('is-visible');
+            });
+
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-accent inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Generando (Puede tardar por HD)...
+            `;
+            btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            const originalBorder = element.style.border;
+            element.style.border = 'none';
+
+            // Tiempo extra (350ms) vital para permitir que el DOM aplique las reglas !important previas al screenshot de canvas
+            setTimeout(() => {
+                // Calcular medidas en mm para evitar el bug crítico de dimensionado nativo en jsPDF con las páginas gigantes:
+                const extWidthMm = element.scrollWidth * 0.264583;
+                const extHeightMm = (element.scrollHeight + 10) * 0.264583;
+
+                const opt = {
+                    margin:       0,
+                    filename:     'Derek_Paul_SeniorFrontend_CV.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { 
+                        scale: 2, 
+                        useCORS: true,
+                        backgroundColor: '#0f172a',
+                        scrollY: 0,
+                        logging: false
+                    },
+                    jsPDF: { 
+                        unit: 'mm', 
+                        format: [extWidthMm, extHeightMm], 
+                        orientation: 'portrait' 
+                    }
+                };
+
+                html2pdf().set(opt).from(element).save().then(() => {
+                    element.style.border = originalBorder;
+                    if(profileImg) { profileImg.classList.remove('pdf-export-img-fix'); }
+                    
+                    // Restauración de animaciones UI
+                    animatedElements.forEach(el => el.style.removeProperty('transition'));
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                }).catch(err => {
+                    console.error('Error al generar PDF:', err);
+                    if(profileImg) { profileImg.classList.remove('pdf-export-img-fix'); }
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                });
+            }, 350);
+        }
+    </script>
+</body>
+</html>
