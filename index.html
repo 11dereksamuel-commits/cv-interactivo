@@ -380,24 +380,22 @@
 
             // Tiempo extra (350ms) vital para permitir que el DOM aplique las reglas !important previas al screenshot de canvas
             setTimeout(() => {
-                // Calcular medidas en mm para evitar el bug crítico de dimensionado nativo en jsPDF con las páginas gigantes:
-                const extWidthMm = element.scrollWidth * 0.264583;
-                const extHeightMm = (element.scrollHeight + 10) * 0.264583;
-
                 const opt = {
-                    margin:       0,
+                    margin:       [10, 0, 10, 0], // Márgenes verticales (top, bottom) de 10mm
                     filename:     'Derek_Paul_SeniorFrontend_CV.pdf',
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { 
-                        scale: 2, 
+                        scale: 2, // Recuperar resolución alta porque A4 ya no satura el canvas total
                         useCORS: true,
                         backgroundColor: '#0f172a',
                         scrollY: 0,
                         logging: false
                     },
+                    // Usar 'avoid' selectivo. Evitará partir a la mitad imágenes, tarjetas de evidencia (.shadow-inner) y títulos, el resto fluirá orgánicamente.
+                    pagebreak: { mode: ['css', 'legacy', 'avoid'], avoid: ['img', '.shadow-inner', 'h3', 'h4', 'strong'] },
                     jsPDF: { 
                         unit: 'mm', 
-                        format: [extWidthMm, extHeightMm], 
+                        format: 'a4', 
                         orientation: 'portrait' 
                     }
                 };
